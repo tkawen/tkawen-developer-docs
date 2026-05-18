@@ -84,10 +84,10 @@ Response:
 
 | Language | Install | Repository |
 |----------|---------|------------|
-| **JavaScript / TypeScript** | `npm install @tkawen/sdk` | [github.com/liqaa-cloud](https://github.com/liqaa-cloud) |
-| **PHP / Laravel** | `composer require tkawen/sdk` | [github.com/liqaa-cloud](https://github.com/liqaa-cloud) |
-| **Python** | `pip install tkawen` | [github.com/liqaa-cloud](https://github.com/liqaa-cloud) |
-| **Go** | `go get github.com/liqaa-cloud/tkawen-go` | [github.com/liqaa-cloud](https://github.com/liqaa-cloud) |
+| **JavaScript / TypeScript** | `npm install @tkawen/sdk` | [github.com/hartemyaakoub](https://github.com/hartemyaakoub) |
+| **PHP / Laravel** | `composer require tkawen/sdk` | [github.com/hartemyaakoub](https://github.com/hartemyaakoub) |
+| **Python** | `pip install tkawen` | [github.com/hartemyaakoub](https://github.com/hartemyaakoub) |
+| **Go** | `go get github.com/hartemyaakoub/tkawen-go` | [github.com/hartemyaakoub](https://github.com/hartemyaakoub) |
 
 All under MIT, identical method signatures across languages.
 
@@ -155,11 +155,11 @@ function verify($payload, $signature, $secret) {
 
 Every repository accepts issues:
 
-- [github.com/liqaa-cloud](https://github.com/liqaa-cloud) — SDKs and specs
+- [github.com/hartemyaakoub](https://github.com/hartemyaakoub) — SDKs and specs
 - [github.com/hartemyaakoub](https://github.com/hartemyaakoub) — flagship projects
 
 ## Related
 
 - Live status: [status.tkawen.com](https://status.tkawen.com)
-- Repositories: [github.com/liqaa-cloud](https://github.com/liqaa-cloud)
+- Repositories: [github.com/hartemyaakoub](https://github.com/hartemyaakoub)
 - Founder: [hartem.tkawen.com](https://hartem.tkawen.com)

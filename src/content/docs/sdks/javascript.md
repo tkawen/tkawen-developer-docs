@@ -140,7 +140,7 @@ repo `tkawen-js-examples` يحوي:
 - `examples/video-room-react` — UI لـ LIQAA Cloud
 
 ```bash
-git clone https://github.com/liqaa-cloud/tkawen-js-examples
+git clone https://github.com/hartemyaakoub/tkawen-js-examples
 cd tkawen-js-examples/examples/checkout-flow
 npm install && npm run dev
 ```
@@ -149,12 +149,12 @@ npm install && npm run dev
 
 - **آخر إصدار:** 1.0.x
 - **Stability:** stable (API frozen)
-- **Changelog:** [github.com/liqaa-cloud/tkawen-js/releases](https://github.com/liqaa-cloud)
+- **Changelog:** [github.com/hartemyaakoub/tkawen-js/releases](https://github.com/hartemyaakoub)
 - **Migration guides:** سيُضاف عند أيّ breaking change
 
 ## المساهمة
 
-المستودع مفتوح: [github.com/liqaa-cloud/tkawen-js](https://github.com/liqaa-cloud)
+المستودع مفتوح: [github.com/hartemyaakoub/tkawen-js](https://github.com/hartemyaakoub)
 - Issues: نقبل bug reports + feature requests
 - PRs: نراجع خلال 48 ساعة (Builder/Enterprise يحصلون على أولويّة)
 - License: **MIT**

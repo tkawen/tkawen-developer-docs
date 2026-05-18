@@ -36,4 +36,4 @@ Three steps, all free.
 
 ## Open source
 
-Everything you'd want to inspect is on [github.com/hartemyaakoub](https://github.com/hartemyaakoub) and [github.com/liqaa-cloud](https://github.com/liqaa-cloud) — SDKs under MIT, reference apps under AGPL-3.0, OpenAPI spec under Apache-2.0.
+Everything you'd want to inspect is on [github.com/hartemyaakoub](https://github.com/hartemyaakoub) and [github.com/hartemyaakoub](https://github.com/hartemyaakoub) — SDKs under MIT, reference apps under AGPL-3.0, OpenAPI spec under Apache-2.0.

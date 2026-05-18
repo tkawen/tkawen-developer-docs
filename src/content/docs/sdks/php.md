@@ -208,7 +208,7 @@ public function panel(Panel $panel): Panel
 - `examples/yii-integration` — Yii Framework example
 
 ```bash
-git clone https://github.com/liqaa-cloud/tkawen-php-examples
+git clone https://github.com/hartemyaakoub/tkawen-php-examples
 cd tkawen-php-examples/examples/laravel-checkout
 composer install && cp .env.example .env && php artisan serve
 ```
@@ -218,11 +218,11 @@ composer install && cp .env.example .env && php artisan serve
 - **آخر إصدار:** 1.0.x
 - **PHP minimum:** 8.2
 - **Laravel minimum:** 10
-- **Changelog:** [github.com/liqaa-cloud/tkawen-php/releases](https://github.com/liqaa-cloud)
+- **Changelog:** [github.com/hartemyaakoub/tkawen-php/releases](https://github.com/hartemyaakoub)
 
 ## المساهمة
 
-[github.com/liqaa-cloud/tkawen-php](https://github.com/liqaa-cloud) — MIT license.
+[github.com/hartemyaakoub/tkawen-php](https://github.com/hartemyaakoub) — MIT license.
 
 ## الدعم
 

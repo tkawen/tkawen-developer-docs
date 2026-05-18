@@ -108,7 +108,7 @@ result = tk.identity.verify(
 ```
 
 ```go
-import "github.com/liqaa-cloud/tkawen-go"
+import "github.com/hartemyaakoub/tkawen-go"
 tk := tkawen.New(os.Getenv("TKAWEN_KEY"))
 
 result, err := tk.Identity.Verify(ctx, &tkawen.VerifyRequest{
@@ -145,5 +145,5 @@ A number from 0 to 100 summarising:
 ## Related
 
 - Live status: [status.tkawen.com](https://status.tkawen.com)
-- Spec repo: [github.com/liqaa-cloud](https://github.com/liqaa-cloud)
+- Spec repo: [github.com/hartemyaakoub](https://github.com/hartemyaakoub)
 - Next: [02 · Connect](/pillars/connect/)

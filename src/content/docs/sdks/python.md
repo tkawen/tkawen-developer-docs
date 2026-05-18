@@ -212,7 +212,7 @@ tkawen --json keys.list  # للـ scripting
 - `examples/data-pipeline` — استخراج Pandas + plot Matplotlib
 
 ```bash
-git clone https://github.com/liqaa-cloud/tkawen-python-examples
+git clone https://github.com/hartemyaakoub/tkawen-python-examples
 cd tkawen-python-examples/examples/fastapi-checkout
 pip install -r requirements.txt
 uvicorn main:app --reload
@@ -222,11 +222,11 @@ uvicorn main:app --reload
 
 - **آخر إصدار:** 1.0.x
 - **Python minimum:** 3.10
-- **Changelog:** [github.com/liqaa-cloud/tkawen-python/releases](https://github.com/liqaa-cloud)
+- **Changelog:** [github.com/hartemyaakoub/tkawen-python/releases](https://github.com/hartemyaakoub)
 
 ## المساهمة
 
-[github.com/liqaa-cloud/tkawen-python](https://github.com/liqaa-cloud) — MIT.
+[github.com/hartemyaakoub/tkawen-python](https://github.com/hartemyaakoub) — MIT.
 
 ## الدعم
 

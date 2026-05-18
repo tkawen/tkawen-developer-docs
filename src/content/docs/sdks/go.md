@@ -6,7 +6,7 @@ description: SDK رسميّ لـ TKAWEN بـ Go 1.21+، idiomatic، context-firs
 ## التثبيت
 
 ```bash
-go get github.com/liqaa-cloud/tkawen-go
+go get github.com/hartemyaakoub/tkawen-go
 ```
 
 يتطلّب:
@@ -23,7 +23,7 @@ import (
     "log"
     "os"
 
-    "github.com/liqaa-cloud/tkawen-go"
+    "github.com/hartemyaakoub/tkawen-go"
 )
 
 func main() {
@@ -96,7 +96,7 @@ import (
     "io"
     "net/http"
 
-    "github.com/liqaa-cloud/tkawen-go"
+    "github.com/hartemyaakoub/tkawen-go"
 )
 
 var webhookSecret = os.Getenv("TKAWEN_WEBHOOK_SECRET")
@@ -209,7 +209,7 @@ if err := iter.Err(); err != nil {
 
 ```bash
 # تثبيت
-go install github.com/liqaa-cloud/tkawen-go/cmd/tkawen@latest
+go install github.com/hartemyaakoub/tkawen-go/cmd/tkawen@latest
 
 # استخدام
 tkawen --help
@@ -228,7 +228,7 @@ tkawen --output=json keys list
 - `examples/grpc-bridge` — gRPC service يربط TKAWEN بـ internal services
 
 ```bash
-git clone https://github.com/liqaa-cloud/tkawen-go-examples
+git clone https://github.com/hartemyaakoub/tkawen-go-examples
 cd tkawen-go-examples/examples/gin-checkout
 go run .
 ```
@@ -237,11 +237,11 @@ go run .
 
 - **آخر إصدار:** v1.0.x
 - **Go minimum:** 1.21
-- **Changelog:** [github.com/liqaa-cloud/tkawen-go/releases](https://github.com/liqaa-cloud)
+- **Changelog:** [github.com/hartemyaakoub/tkawen-go/releases](https://github.com/hartemyaakoub)
 
 ## المساهمة
 
-[github.com/liqaa-cloud/tkawen-go](https://github.com/liqaa-cloud) — MIT.
+[github.com/hartemyaakoub/tkawen-go](https://github.com/hartemyaakoub) — MIT.
 
 ## الدعم
 

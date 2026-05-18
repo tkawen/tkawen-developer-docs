@@ -146,5 +146,5 @@ Signed with HMAC-SHA256 — verify via `X-TKAWEN-Signature`.
 ## Related
 
 - LIQAA Meet (OSS): [meet.liqaa.io](https://meet.liqaa.io)
-- Source: [github.com/liqaa-cloud](https://github.com/liqaa-cloud)
+- Source: [github.com/hartemyaakoub](https://github.com/hartemyaakoub)
 - Next: [03 · Pay](/pillars/pay/)
