@@ -1,0 +1,62 @@
+---
+title: TKAWEN Developer
+description: الوثائق الرسمية لمنصة TKAWEN — البنية الرقمية السيادية للجزائر.
+template: splash
+hero:
+  tagline: 7 طبقات بنية تحتية، 4 SDKs بـ 4 لغات، Sandbox مجاني — مفتاحك جاهز في 60 ثانية.
+  image:
+    file: ../../assets/tkawen-mark.svg
+  actions:
+    - text: ابدأ مجاناً
+      link: /intro/
+      icon: right-arrow
+      variant: primary
+    - text: تصفّح GitHub
+      link: https://github.com/hartemyaakoub
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## الطبقات السبع
+
+<CardGrid stagger>
+	<Card title="01 · الهوية" icon="seti:lock">
+		OIDC SSO، KYC، Trust Network. يحلّ محلّ Auth0/Okta/Onfido.
+	</Card>
+	<Card title="02 · الاتصال" icon="comment">
+		فيديو، صوت، SMS، WhatsApp بـ API واحدة. يحلّ محلّ Twilio/Zoom.
+	</Card>
+	<Card title="03 · الدفع" icon="seti:powershell">
+		تحصيل بالدينار، DGI + CCP integration. يحلّ محلّ Stripe.
+	</Card>
+	<Card title="04 · التجارة" icon="seti:cart">
+		13 عملة، 4 ناقلين، 4 مزوّدي دفع. يحلّ محلّ Shopify.
+	</Card>
+	<Card title="05 · المعرفة" icon="open-book">
+		LMS + شهادات QR — Décret 20-254. يحلّ محلّ Teachable/Credly.
+	</Card>
+	<Card title="06 · اللوجستيك" icon="seti:default">
+		تتبّع GPS + ناقلي DZ (Yalidine، CTM، Aramex).
+	</Card>
+	<Card title="07 · للمطوّرين" icon="seti:json">
+		API gateway موحَّدة، 4 SDKs، Sandbox مجاني، docs بالعربية.
+	</Card>
+</CardGrid>
+
+## لماذا TKAWEN؟
+
+<CardGrid>
+	<Card title="السيادة" icon="approve-check">
+		بياناتك في الجزائر تحت ولايتك القضائية. لا نقل عبر الحدود.
+	</Card>
+	<Card title="الدينار" icon="seti:db">
+		فوترة بالدينار — لا FX، لا Visa أمريكيّة، لا مفاجآت.
+	</Card>
+	<Card title="القانون" icon="seti:powershell">
+		Décret 20-254 + ASEP + D-U-N-S 353551313 — موثوقون.
+	</Card>
+	<Card title="المفتوح" icon="github">
+		LIQAA Meet + 4 SDKs + هذا الموقع — كلّها AGPL/MIT.
+	</Card>
+</CardGrid>
