@@ -1,0 +1,38 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: astro build + link check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Astro check
+        run: npm run astro -- check
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Verify expected pages exist
+        run: |
+          test -f dist/index.html
+          test -f dist/intro/index.html
+          test -f dist/pillars/identity/index.html
+          test -f dist/sdks/javascript/index.html
+          test -d dist/_astro
+          echo "✓ All key pages built"

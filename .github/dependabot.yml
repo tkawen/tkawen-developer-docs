@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - javascript
+    versioning-strategy: increase
+    groups:
+      astro:
+        patterns:
+          - "astro"
+          - "@astrojs/*"
+      starlight:
+        patterns:
+          - "@astrojs/starlight"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - ci
