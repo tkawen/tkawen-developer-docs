@@ -1,37 +1,39 @@
 ---
-title: مقدّمة
-description: ما هي TKAWEN ولماذا قد تستخدمها كمطوّر.
+title: Introduction
+description: What TKAWEN is, who it's for, and how to start in three steps.
 ---
 
-**TKAWEN** هي البنية التحتية الرقمية السيادية للجزائر — مجموعة من 7 طبقات (Identity، Connect، Pay، Commerce، Knowledge، Logistics، Developer Cloud) تُعرَض كـ APIs، مع:
+**TKAWEN** is a unified cloud platform exposing seven APIs (Identity, Connect, Pay, Commerce, Knowledge, Logistics, Developer Cloud) that ship together, bill together, and integrate together.
 
-- **سيادة كاملة** — البيانات تبقى في الجزائر
-- **فوترة بالدينار** — لا حاجة لبطاقة فيزا أو شركة أجنبيّة
-- **العربية كلغة أصليّة** — RTL ليس hack، Darija مفهومة
-- **التزام قانوني** — Décret 20-254 + Arrêté 1275 + ASEP + D-U-N-S
+- **One platform** instead of five-to-seven point solutions
+- **One API key** that works across every service
+- **One SDK install** in JavaScript, PHP, Python, or Go
+- **One monthly invoice** in your preferred currency (13 supported)
+- **One OpenAPI spec** for the entire surface
+- **One free sandbox** with no credit card and no time limit
 
-## مَن يستخدم TKAWEN؟
+## Who uses TKAWEN
 
-- **شركات ناشئة جزائريّة** تحتاج إلى Stripe + Twilio + Auth0 لكن لا تستطيع/تريد دفع بالدولار
-- **بنوك ووزارات** تحتاج إلى بنية سياديّة معتمَدة قانونياً
-- **جامعات وتدريب** تحتاج LMS + شهادات قابلة للتحقّق تحت Décret 20-254
-- **تجّار** يحتاجون متجراً جزائرياً متكاملاً (Yalidine، CCP، DZD)
-- **مطوّرون مستقلّون** يبنون أدوات للسوق الجزائري
+- **Product teams** that want to ship faster than gluing Stripe + Twilio + Auth0 + Shopify
+- **Indie developers** building global products from day one
+- **Regulated industries** (health, education, finance) needing audit trails and compliance options
+- **Open-source maintainers** who appreciate AGPL/MIT licensing and forkable reference apps
+- **Enterprise teams** that need negotiated SLAs, dedicated infrastructure, and custom data residency
 
-## كيف تبدأ؟
+## How to start
 
-ثلاث خطوات. كلّها مجانيّة.
+Three steps, all free.
 
-1. **[احصل على مفتاح API](/getting-started/api-key/)** — مجاناً، بلا بطاقة
-2. **[اِستدع API لأوّل مرّة](/getting-started/first-call/)** — مثال curl واحد
-3. **[اختر طبقتك واغرس SDK](/pillars/identity/)** — JavaScript / PHP / Python / Go
+1. **[Get an API key](/getting-started/api-key/)** — no credit card, 60 seconds
+2. **[Make your first call](/getting-started/first-call/)** — single curl example
+3. **[Pick a pillar and install an SDK](/pillars/identity/)** — JavaScript, PHP, Python, or Go
 
-## التسعير في سطر
+## Pricing in one line
 
-- **Sandbox** — مجاناً، 1,000 استدعاء/شهر لكلّ خدمة
-- **Builder** — من 0.5 DZD/استدعاء، فوترة شهريّة
-- **Enterprise** — تواصل: DIRECTION@takawen.dz
+- **Sandbox** — free forever, 1,000 calls per service per month
+- **Builder** — pay as you go from $0.005 per call, monthly invoicing
+- **Enterprise** — custom contract, contact: DIRECTION@takawen.dz
 
-## مفتوح المصدر
+## Open source
 
-كلّ شيء قابل للقراءة على [github.com/hartemyaakoub](https://github.com/hartemyaakoub). الـ SDKs تحت MIT. LIQAA Meet تحت AGPL-3.0.
+Everything you'd want to inspect is on [github.com/hartemyaakoub](https://github.com/hartemyaakoub) and [github.com/liqaa-cloud](https://github.com/liqaa-cloud) — SDKs under MIT, reference apps under AGPL-3.0, OpenAPI spec under Apache-2.0.

@@ -1,143 +1,144 @@
 ---
-title: 03 · الدفع
-description: TKAWEN Pay — تحصيل بالدينار، تسوية بالدينار، التزام بـ DGI و CCP.
+title: 03 · Pay
+description: TKAWEN Pay — cards, wallets, transfers, and recurring billing in 13 currencies.
 ---
 
-## نظرة عامّة
+## Overview
 
-**TKAWEN Pay** يحلّ مشكلة الدفع الجزائريّ بالكامل:
+**TKAWEN Pay** handles the full payment stack:
 
-- **بطاقات** عبر شراكة Chargily (EDAHABIA + CIB)
-- **CCP** — تكامل مع البريد الجزائريّ
-- **Cash on Delivery** — تنسيق مع TKAWEN Logistics
-- **فاتورة DGI** — توليد PDF متوافق مع جبائة + e-facture
-- **اشتراكات متكرّرة** — recurring billing
-- **تسوية** — يومياً إلى حسابك البنكيّ الجزائريّ
+- **Cards** — major networks via global processor partners
+- **Wallets** — Apple Pay, Google Pay, regional wallets
+- **Bank transfers** — SEPA, ACH, local rails per market
+- **Recurring billing** — subscriptions, trials, retries
+- **Multi-currency** — 13 currencies, automatic FX conversion
+- **Invoicing** — tax-compliant PDF generation per region
+- **Settlements** — daily payout to your bank in your chosen currency
 
-يحلّ محلّ **Stripe، Paddle، Recurly** للسوق الجزائريّ.
+Replaces **Stripe, Paddle, Recurly**.
 
-:::caution
-المعالجة بالدينار **حصراً**. لـ MENA متعدّد العملات، استخدم [TKAWEN Commerce](/pillars/commerce/) الذي يدعم 13 عملة.
-:::
-
-## البدء السريع
+## Quick start
 
 ```bash
-# أنشئ checkout link
+# Create a checkout link
 curl -X POST https://api.tkawen.com/v1/pay/checkouts \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "amount": 25000,
-    "currency": "DZD",
-    "description": "اشتراك PharmaPro سنوي",
+    "amount": 2900,
+    "currency": "USD",
+    "description": "Pro subscription · annual",
     "success_url": "https://your-app.com/success",
     "cancel_url": "https://your-app.com/cancel",
-    "methods": ["card", "ccp"]
+    "methods": ["card", "wallet", "transfer"]
   }'
 ```
 
-ردّ:
+Response:
 
 ```json
 {
   "checkout_id": "co_8xk29d",
   "checkout_url": "https://pay.tkawen.com/co_8xk29d",
   "expires_at": "2026-05-18T17:30:00Z",
-  "amount": 25000,
-  "currency": "DZD"
+  "amount": 2900,
+  "currency": "USD"
 }
 ```
 
-## النقاط الرئيسيّة
+## Endpoints
 
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/pay/checkouts` | إنشاء رابط دفع |
-| `GET` | `/v1/pay/checkouts/{id}` | حالة الـ checkout |
-| `POST` | `/v1/pay/charges` | تحصيل مباشر (بدون UI) |
-| `GET` | `/v1/pay/transactions/{id}` | تفاصيل عمليّة |
-| `POST` | `/v1/pay/refunds` | استرجاع مبلغ |
-| `POST` | `/v1/pay/subscriptions` | اشتراك متكرّر |
-| `POST` | `/v1/pay/invoices` | توليد فاتورة DGI PDF |
-| `GET` | `/v1/pay/settlements` | كشف التسويات اليوميّة |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/pay/checkouts` | Create a hosted checkout |
+| `GET` | `/v1/pay/checkouts/{id}` | Checkout state |
+| `POST` | `/v1/pay/charges` | Direct charge (no UI) |
+| `GET` | `/v1/pay/transactions/{id}` | Transaction details |
+| `POST` | `/v1/pay/refunds` | Issue a refund |
+| `POST` | `/v1/pay/subscriptions` | Recurring subscription |
+| `POST` | `/v1/pay/invoices` | Generate tax-compliant PDF invoice |
+| `GET` | `/v1/pay/settlements` | Daily settlement statements |
 
-## التسعير (الرسوم)
+## Pricing (processing fees)
 
-| العمليّة | الرسم |
-|----------|------|
-| بطاقة EDAHABIA / CIB | **1.8%** + 50 DZD |
-| CCP transfer | **70 DZD** ثابت |
-| Cash on Delivery (مع Track) | **2%** |
-| Refund | مجاناً (يُسترَدّ الرسم) |
-| فاتورة DGI PDF | مجاناً |
-| تسوية يوميّة | مجاناً (>50k DZD/يوم) |
+| Method | Fee |
+|--------|-----|
+| Card payments | **2.9% + $0.30** (standard) |
+| Wallets (Apple Pay, Google Pay) | **2.9% + $0.30** |
+| Bank transfer (SEPA / ACH) | **$0.80 flat** |
+| Refunds | Free (fees returned proportionally) |
+| Invoice generation | Free |
+| Daily settlement | Free |
 
-**خصم الحجم:** فوق 10M DZD/شهر = 1.2%. تواصل لـ Enterprise rate.
+**Volume discount:** above $100k / month settles at 2.4% + $0.20. Contact for Enterprise rates.
 
-## أمثلة بـ SDK
+## SDK examples
 
 ```javascript
 const checkout = await tk.pay.checkouts.create({
-  amount: 25000,
-  currency: 'DZD',
-  description: 'اشتراك سنوي',
+  amount: 2900,
+  currency: 'USD',
+  description: 'Annual subscription',
   successUrl: 'https://your-app.com/success',
-  methods: ['card', 'ccp'],
+  methods: ['card', 'wallet'],
 });
 res.redirect(checkout.checkoutUrl);
 ```
 
 ```php
 $checkout = $tk->pay->checkouts->create([
-    'amount'      => 25000,
-    'currency'    => 'DZD',
-    'description' => 'اشتراك سنوي',
+    'amount'      => 2900,
+    'currency'    => 'USD',
+    'description' => 'Annual subscription',
     'success_url' => 'https://your-app.com/success',
-    'methods'     => ['card', 'ccp'],
+    'methods'     => ['card', 'wallet'],
 ]);
 return redirect($checkout->checkout_url);
 ```
 
 ```python
 checkout = tk.pay.checkouts.create(
-    amount=25000, currency='DZD',
-    description='اشتراك سنوي',
+    amount=2900, currency='USD',
+    description='Annual subscription',
     success_url='https://your-app.com/success',
-    methods=['card', 'ccp'],
+    methods=['card', 'wallet'],
 )
 return redirect(checkout.checkout_url)
 ```
 
-## اشتراكات متكرّرة
+## Recurring subscriptions
 
 ```bash
 curl -X POST https://api.tkawen.com/v1/pay/subscriptions \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -d '{
     "customer_id": "cus_8xk2",
-    "plan": "pharmapro_standard",
-    "amount": 60000,
+    "plan": "pro_annual",
+    "amount": 29900,
+    "currency": "USD",
     "interval": "year",
-    "trial_days": 15
+    "trial_days": 14
   }'
 ```
 
-تجديد تلقائيّ، إشعار قبل 7 أيّام، إلغاء self-service.
+Automatic renewal, 7-day notice email before charge, self-service cancellation portal.
 
-## فاتورة DGI
+## Invoicing
+
+Every transaction can generate a region-appropriate PDF invoice:
 
 ```bash
 curl -X POST https://api.tkawen.com/v1/pay/invoices \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -d '{
     "transaction_id": "tx_8xk2",
-    "include_tva": true,
-    "language": "ar"
+    "include_tax": true,
+    "tax_region": "EU",
+    "language": "en"
   }'
 ```
 
-PDF متوافق مع جبائة، صالح للإيداع لدى مفتّش الضرائب.
+Supports US sales tax, EU VAT, UK VAT, regional tax models — PDF returned inline.
 
 ## Webhooks
 
@@ -150,20 +151,19 @@ subscription.renewed subscription.payment_failed
 invoice.generated
 ```
 
-## الحدود + SLA
+## Limits + SLA
 
-- **Rate limit:** 100 checkout/min، 50 charge/sec
-- **Latency p99:** <2s للـ checkout، <5s للـ charge
-- **Reconciliation:** يوميّاً 02:00 جزائر، إيداع البنك خلال 24 ساعة
+- **Rate limit:** 100 checkouts/min, 50 charges/sec
+- **Latency p99:** under 2s for checkout creation, under 5s for charge processing
+- **Reconciliation:** daily at 02:00 UTC, bank payout within 24 hours
 
-## امتثال + قانون
+## Compliance
 
-- **DGI** — كلّ فاتورة قابلة للتدقيق
-- **Banque d'Algérie** — تسويات بالدينار حصراً
-- **ASEP** — مزوّد دفع إلكترونيّ معتمَد
-- **PCI DSS** — البطاقات عبر Chargily (PCI-Level 1)
+- **PCI DSS Level 1** — card data handled by certified processor partners
+- **3-D Secure 2** — automatic strong customer authentication where required
+- **SCA-compliant** for European cards
+- **Regional tax** — automatic invoice formats per market
 
-## روابط
+## Related
 
-- شريك الدفع: [Chargily.com](https://chargily.com)
-- التالي: [04 · التجارة](/pillars/commerce/)
+- Next: [04 · Commerce](/pillars/commerce/)

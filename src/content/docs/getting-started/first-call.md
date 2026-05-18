@@ -1,50 +1,50 @@
 ---
-title: استدعاؤك الأوّل
-description: مثال واحد بسيط — أنشئ غرفة فيديو حقيقيّة في 3 سطور.
+title: Your first call
+description: One simple example — create a real video room in three lines.
 ---
 
-## أنشئ غرفة فيديو (LIQAA Cloud)
+## Create a video room (Connect)
 
 ```bash
 curl -X POST https://api.tkawen.com/v1/connect/rooms \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "reunion-strategique",
+    "name": "team-standup",
     "max_participants": 12,
     "duration_minutes": 60
   }'
 ```
 
-ردّ:
+Response:
 
 ```json
 {
   "room_id": "rm_8x2k9...",
-  "name": "reunion-strategique",
+  "name": "team-standup",
   "sdk_token": "eyJhbGciOiJIUzI1NiIs...",
   "join_url": "https://meet.liqaa.io/rm_8x2k9...",
   "expires_at": "2026-05-18T18:30:00Z"
 }
 ```
 
-أحضر صفحة `join_url` في أيّ متصفّح وأنت في الغرفة فوراً.
+Open the `join_url` in any browser and you're in the room.
 
-## أو أرسل SMS (DZ telco)
+## Or send an SMS
 
 ```bash
 curl -X POST https://api.tkawen.com/v1/connect/sms \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "to": "+213555000000",
-    "body": "رمز التحقّق: 123456"
+    "to": "+15551234567",
+    "body": "Your verification code: 123456"
   }'
 ```
 
-التكلفة: **3-5 DZD** لكلّ SMS، بدون اشتراك شهري.
+Cost: from $0.04 per SMS depending on destination country, with no monthly subscription.
 
-## أو حقّق هوية (TKAWEN ID + KYC)
+## Or verify an identity (KYC)
 
 ```bash
 curl -X POST https://api.tkawen.com/v1/identity/verify \
@@ -52,19 +52,20 @@ curl -X POST https://api.tkawen.com/v1/identity/verify \
   -H "Content-Type: application/json" \
   -d '{
     "national_id": "1234567890123456",
-    "first_name": "محمد",
-    "last_name": "بن أحمد",
-    "date_of_birth": "1995-03-12"
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "date_of_birth": "1995-03-12",
+    "country": "US"
   }'
 ```
 
-ردّ في حدود **<800ms** — مطابقة فوريّة مع قاعدة بيانات الهوية الوطنيّة.
+Response typically returns in under 800ms.
 
-## ماذا تعلّمت
+## What you learned
 
-- المفتاح `Bearer $TKAWEN_KEY` يصلح لكلّ الطبقات
-- كلّ النقاط تحت `api.tkawen.com/v1/<pillar>/<resource>`
-- الردود JSON قياسيّة
-- التسعير في كلّ ردّ ضمن header `X-TKAWEN-Cost: 5.00 DZD`
+- The `Bearer $TKAWEN_KEY` header works across every pillar
+- All endpoints live under `api.tkawen.com/v1/<pillar>/<resource>`
+- Responses are standard JSON
+- Per-request cost returned in `X-TKAWEN-Cost` header
 
-اقرأ الآن **[وثائق الطبقات السبع](/pillars/identity/)** للتعمّق.
+Read on: **[the seven pillars](/pillars/identity/)** for deeper reference.

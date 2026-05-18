@@ -1,39 +1,38 @@
 ---
-title: 05 · المعرفة
-description: TKAWEN Knowledge — LMS كامل + شهادات قابلة للتحقّق بـ QR — Décret 20-254.
+title: 05 · Knowledge
+description: TKAWEN Knowledge — courses, AI tutors, and tamper-proof certificates with public QR verification.
 ---
 
-## نظرة عامّة
+## Overview
 
-**TKAWEN Knowledge** يشغّل بنية التعلّم والاعتماد الجزائريّة:
+**TKAWEN Knowledge** powers learning and credentialing for product teams, schools, training organizations, and certification authorities:
 
-- **LMS** — دروس، مهامّ، اختبارات، تتبّع تقدّم
-- **Certificates** — شهادات بـ QR قابلة للتحقّق عمومياً
-- **Décret 20-254** — البنية معتمَدة قانونياً كـ academic spin-off
-- **Trainer marketplace** — جمع المدرّبين الجزائريّين تحت TKAWEN ID
-- **Skills taxonomy** — شجرة مهارات مفهرسة، تربط الدورة بسوق العمل
-- **AI Tutors** — Ollama سياديّ (لا OpenAI، لا Anthropic)
+- **LMS** — lessons, assignments, quizzes, progress tracking
+- **Certificates** — QR-verifiable, tamper-proof via SHA-256 hashing
+- **Trainer marketplace** — unified instructor accounts under TKAWEN ID
+- **Skills taxonomy** — indexed skill tree linking courses to job market signals
+- **AI Tutors** — context-bound LLM tutors that won't hallucinate outside the syllabus
 
-يحلّ محلّ **Teachable، Coursera، Credly**.
+Replaces **Teachable, Coursera, Credly**.
 
-## البدء السريع
+## Quick start
 
 ```bash
-# أصدر شهادة قابلة للتحقّق
+# Issue a verifiable certificate
 curl -X POST https://api.tkawen.com/v1/knowledge/certificates \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "recipient_id": "usr_8xk2",
     "course_id": "crs_abc",
-    "title": "شهادة إتمام دورة إدارة الصيدليّات",
-    "issued_by": "TKAWEN Academy",
+    "title": "Advanced React Patterns — Completion Certificate",
+    "issued_by": "Your Academy",
     "issued_date": "2026-05-18",
-    "skills": ["pharmacy_management", "dgi_compliance"]
+    "skills": ["react_advanced", "state_management"]
   }'
 ```
 
-ردّ:
+Response:
 
 ```json
 {
@@ -45,70 +44,70 @@ curl -X POST https://api.tkawen.com/v1/knowledge/certificates \
 }
 ```
 
-كلّ من يمسح الـ QR يحصل على صفحة تحقّق رسميّة لا تتطلّب أن يكون لديه حساب.
+Anyone scanning the QR sees an official verification page — no account required.
 
-## النقاط الرئيسيّة
+## Endpoints
 
 ### Courses
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/knowledge/courses` | إنشاء دورة |
-| `GET` | `/v1/knowledge/courses/{id}` | تفاصيل |
-| `POST` | `/v1/knowledge/courses/{id}/lessons` | إضافة درس |
-| `POST` | `/v1/knowledge/courses/{id}/quizzes` | إضافة اختبار |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/knowledge/courses` | Create a course |
+| `GET` | `/v1/knowledge/courses/{id}` | Course details |
+| `POST` | `/v1/knowledge/courses/{id}/lessons` | Add a lesson |
+| `POST` | `/v1/knowledge/courses/{id}/quizzes` | Add a quiz |
 
 ### Enrollments
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/knowledge/enrollments` | تسجيل طالب |
-| `GET` | `/v1/knowledge/enrollments/{id}/progress` | نسبة الإنجاز |
-| `POST` | `/v1/knowledge/enrollments/{id}/complete` | إنهاء + إصدار شهادة |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/knowledge/enrollments` | Enroll a student |
+| `GET` | `/v1/knowledge/enrollments/{id}/progress` | Completion percentage |
+| `POST` | `/v1/knowledge/enrollments/{id}/complete` | Finalise + issue certificate |
 
 ### Certificates
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/knowledge/certificates` | إصدار شهادة |
-| `GET` | `/v1/knowledge/certificates/{id}` | تفاصيل |
-| `GET` | `/v1/knowledge/verify/{qr_token}` | تحقّق عموميّ (لا key) |
-| `POST` | `/v1/knowledge/certificates/{id}/revoke` | إبطال |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/knowledge/certificates` | Issue a certificate |
+| `GET` | `/v1/knowledge/certificates/{id}` | Details |
+| `GET` | `/v1/knowledge/verify/{qr_token}` | Public verification (no auth) |
+| `POST` | `/v1/knowledge/certificates/{id}/revoke` | Revoke |
 
 ### Skills
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `GET` | `/v1/knowledge/skills` | شجرة المهارات |
-| `GET` | `/v1/knowledge/skills/{slug}/courses` | دورات تطوّر مهارة |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET` | `/v1/knowledge/skills` | Skills tree |
+| `GET` | `/v1/knowledge/skills/{slug}/courses` | Courses that develop a skill |
 
-## التسعير
+## Pricing
 
-| البند | السعر |
-|-------|------|
-| المؤسّسة — base/شهر | **100 DZD** (حتّى 50 طالب) |
-| طالب إضافيّ فوق الـ 50 | **20 DZD/شهر** |
-| إصدار شهادة | **5 DZD** |
-| تحقّق عموميّ (لا key) | مجاناً |
-| AI Tutor query | **2 DZD/استعلام** |
+| Item | Price |
+|------|-------|
+| Organisation base / month | **$1.00** (up to 50 students) |
+| Additional student / month | **$0.20** |
+| Certificate issuance | **$0.05** |
+| Public verification (no key) | Free |
+| AI Tutor query | **$0.02** |
 
-في Sandbox: 10 طلاب، 100 شهادة/شهر، AI Tutor محدود.
+Sandbox: 10 students, 100 certificates / month, limited AI Tutor.
 
-## أمثلة بـ SDK
+## SDK examples
 
 ```javascript
-// أنشئ دورة + درس + اختبار
+// Create a course + lesson
 const course = await tk.knowledge.courses.create({
-  title: 'إدارة الصيدليّة المعاصرة',
-  language: 'ar-DZ',
+  title: 'Advanced React Patterns',
+  language: 'en',
   duration_hours: 12,
-  skills: ['pharmacy_management', 'dgi_compliance'],
+  skills: ['react_advanced', 'state_management'],
 });
 
 await tk.knowledge.lessons.create({
   courseId: course.id,
-  title: 'الفاتورة الإلكترونيّة',
-  content: '# مقدّمة\n...',
+  title: 'useReducer in practice',
+  content: '# Introduction\n...',
   video_url: 'https://...',
 });
 
-// تسجيل طالب
+// Enroll a student
 const enrollment = await tk.knowledge.enrollments.create({
   courseId: course.id,
   studentId: 'usr_8xk2',
@@ -117,40 +116,42 @@ const enrollment = await tk.knowledge.enrollments.create({
 
 ```php
 $course = $tk->knowledge->courses->create([
-    'title' => 'إدارة الصيدليّة',
-    'language' => 'ar-DZ',
+    'title' => 'Advanced React Patterns',
+    'language' => 'en',
     'duration_hours' => 12,
 ]);
 ```
 
-## شهادة قابلة للتحقّق
+## Verifiable certificate
 
-كلّ شهادة:
-- موقَّعة بـ SHA-256 hash
-- مرتبطة بـ Décret 20-254 academic standing
-- صالحة دائماً (إلّا إذا revoked)
-- قابلة للتحقّق بدون account: فقط مسح QR
+Every certificate is:
 
-صفحة التحقّق `verify.tkawen.com/cert_8xk2` تعرض:
-- اسم المؤسّسة المُصدِرة
-- تاريخ الإصدار
-- المهارات المُكتسبة
-- حالة الصلاحيّة (live/revoked)
-- توقيع TKAWEN الرقميّ
+- Signed with SHA-256 hash
+- Permanently valid (unless explicitly revoked)
+- Verifiable without an account — anyone scanning the QR gets a public page
+- Issued under your organisation's branding, not TKAWEN's
 
-## AI Tutor (Ollama سياديّ)
+The public verification page at `verify.tkawen.com/cert_8xk2` shows:
+
+- Issuing organisation
+- Issue date
+- Skills acquired
+- Validity state (live / revoked)
+- TKAWEN digital signature
+
+## AI Tutor
 
 ```bash
 curl -X POST https://api.tkawen.com/v1/knowledge/ai-tutor \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -d '{
     "course_id": "crs_abc",
-    "question": "ما الفرق بين TVA و IBS؟",
-    "language": "ar-DZ"
+    "question": "Explain the difference between useState and useReducer.",
+    "language": "en"
   }'
 ```
 
-الذكاء الاصطناعيّ يستجيب بناءً على محتوى الدورة فقط — لا hallucination خارج المنهج. مُدرَّب على Ollama محلّياً، **بيانات الطالب لا تغادر VPS الجزائر**.
+The AI Tutor responds based on course content only — no hallucination outside the syllabus. Student data stays within your organisation's tenant.
 
 ## Webhooks
 
@@ -162,9 +163,8 @@ quiz.submitted          quiz.passed
 ai_tutor.queried
 ```
 
-## روابط
+## Related
 
-- المنتج الاستهلاكيّ: [algeriacertify.com](https://algeriacertify.com)
-- التحقّق: [verify.tkawen.com](https://verify.tkawen.com)
-- الكاتالوغ: [catalogue.tkawen.com](https://catalogue.tkawen.com)
-- التالي: [06 · اللوجستيك](/pillars/logistics/)
+- Consumer product: [algeriacertify.com](https://algeriacertify.com)
+- Verification page: [verify.tkawen.com](https://verify.tkawen.com)
+- Next: [06 · Logistics](/pillars/logistics/)

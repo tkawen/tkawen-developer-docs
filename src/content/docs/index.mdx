@@ -1,62 +1,62 @@
 ---
 title: TKAWEN Developer
-description: الوثائق الرسمية لمنصة TKAWEN — البنية الرقمية السيادية للجزائر.
+description: Documentation for TKAWEN — seven cloud APIs, four SDKs, a free sandbox, and an OpenAPI 3.1 spec.
 template: splash
 hero:
-  tagline: 7 طبقات بنية تحتية، 4 SDKs بـ 4 لغات، Sandbox مجاني — مفتاحك جاهز في 60 ثانية.
+  tagline: Seven APIs. One platform. One key. Build anywhere.
   image:
     file: ../../assets/tkawen-mark.svg
   actions:
-    - text: ابدأ مجاناً
+    - text: Start free
       link: /intro/
       icon: right-arrow
       variant: primary
-    - text: تصفّح GitHub
+    - text: Browse GitHub
       link: https://github.com/hartemyaakoub
       icon: external
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## الطبقات السبع
+## The seven pillars
 
 <CardGrid stagger>
-	<Card title="01 · الهوية" icon="seti:lock">
-		OIDC SSO، KYC، Trust Network. يحلّ محلّ Auth0/Okta/Onfido.
+	<Card title="01 · Identity" icon="seti:lock">
+		OIDC SSO, KYC, trust signals. Replaces Auth0, Okta, Clerk.
 	</Card>
-	<Card title="02 · الاتصال" icon="comment">
-		فيديو، صوت، SMS، WhatsApp بـ API واحدة. يحلّ محلّ Twilio/Zoom.
+	<Card title="02 · Connect" icon="comment">
+		Video, voice, SMS, WhatsApp, email, TTS — one API. Replaces Twilio, Zoom, SendGrid.
 	</Card>
-	<Card title="03 · الدفع" icon="seti:powershell">
-		تحصيل بالدينار، DGI + CCP integration. يحلّ محلّ Stripe.
+	<Card title="03 · Pay" icon="seti:powershell">
+		Cards, wallets, transfers, recurring billing — 13 currencies. Replaces Stripe.
 	</Card>
-	<Card title="04 · التجارة" icon="seti:cart">
-		13 عملة، 4 ناقلين، 4 مزوّدي دفع. يحلّ محلّ Shopify.
+	<Card title="04 · Commerce" icon="seti:cart">
+		Multi-tenant storefronts, catalog, cart, checkout. Replaces Shopify.
 	</Card>
-	<Card title="05 · المعرفة" icon="open-book">
-		LMS + شهادات QR — Décret 20-254. يحلّ محلّ Teachable/Credly.
+	<Card title="05 · Knowledge" icon="open-book">
+		Courses, AI tutors, verifiable certificates. Replaces Teachable, Credly.
 	</Card>
-	<Card title="06 · اللوجستيك" icon="seti:default">
-		تتبّع GPS + ناقلي DZ (Yalidine، CTM، Aramex).
+	<Card title="06 · Logistics" icon="seti:default">
+		Fleet GPS + multi-carrier shipping (Aramex, DHL, CTM, Yalidine).
 	</Card>
-	<Card title="07 · للمطوّرين" icon="seti:json">
-		API gateway موحَّدة، 4 SDKs، Sandbox مجاني، docs بالعربية.
+	<Card title="07 · Developer" icon="seti:json">
+		Unified gateway, 4 SDKs, OpenAPI, free sandbox, status page.
 	</Card>
 </CardGrid>
 
-## لماذا TKAWEN؟
+## Why TKAWEN
 
 <CardGrid>
-	<Card title="السيادة" icon="approve-check">
-		بياناتك في الجزائر تحت ولايتك القضائية. لا نقل عبر الحدود.
+	<Card title="One platform" icon="approve-check">
+		Replace five-to-seven point solutions teams glue together with a single unified platform.
 	</Card>
-	<Card title="الدينار" icon="seti:db">
-		فوترة بالدينار — لا FX، لا Visa أمريكيّة، لا مفاجآت.
+	<Card title="One key, one SDK" icon="seti:db">
+		Same Bearer token works across all pillars. Same SDK install. Same dashboard.
 	</Card>
-	<Card title="القانون" icon="seti:powershell">
-		Décret 20-254 + ASEP + D-U-N-S 353551313 — موثوقون.
+	<Card title="Open source" icon="github">
+		All 4 SDKs are MIT. Reference apps are AGPL. The OpenAPI spec is Apache-2.0.
 	</Card>
-	<Card title="المفتوح" icon="github">
-		LIQAA Meet + 4 SDKs + هذا الموقع — كلّها AGPL/MIT.
+	<Card title="Multi-currency native" icon="seti:powershell">
+		Bill in 13 currencies from day one. Built for global product teams.
 	</Card>
 </CardGrid>

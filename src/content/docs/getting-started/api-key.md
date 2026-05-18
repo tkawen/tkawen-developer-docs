@@ -1,43 +1,43 @@
 ---
-title: احصل على مفتاح API
-description: كيف تنشئ حساب TKAWEN وتحصل على مفتاح Sandbox مجاني خلال 60 ثانية.
+title: Get an API key
+description: Create an account and get a free sandbox API key in 60 seconds — no credit card required.
 ---
 
-## في 60 ثانية
+## In 60 seconds
 
-1. اذهب إلى **[id.tkawen.com/signup](https://id.tkawen.com/signup)**
-2. سجّل بريداً جزائرياً + رقم هاتف للتحقّق (SMS مجاني)
-3. أكّد عبر البريد، ثمّ ادخل لوحة Developer
-4. اضغط **«Create API key»** — تحصل على مفتاحَين:
-   - `pk_sandbox_...` (مفتاح عام، آمن للجوّال)
-   - `sk_sandbox_...` (مفتاح خاص، لا تكشفه أبداً)
+1. Go to **[id.tkawen.com/signup](https://id.tkawen.com/signup)**
+2. Sign up with email + phone (SMS verification, free)
+3. Confirm your email, then sign in to the developer dashboard
+4. Click **"Create API key"** — you get two keys back:
+   - `pk_sandbox_...` (publishable, safe for client-side use)
+   - `sk_sandbox_...` (secret, never expose publicly)
 
-## احفظه بأمان
+## Store it safely
 
 ```bash
-# ~/.bashrc أو متغيّرات بيئة المشروع
+# ~/.bashrc or your project's environment
 export TKAWEN_KEY="sk_sandbox_xxxxxxxxxxxxxxxxxxxxxxxx"
 ```
 
-## تحقّق
+## Verify it works
 
 ```bash
 curl -H "Authorization: Bearer $TKAWEN_KEY" \
      https://api.tkawen.com/v1/identity/me
 ```
 
-ردّ متوقَّع:
+Expected response:
 
 ```json
 {
   "key_id": "ak_xxx",
   "mode": "sandbox",
-  "owner": "your-email@example.dz",
+  "owner": "your-email@example.com",
   "quota": { "calls_this_month": 0, "limit": 1000 }
 }
 ```
 
-## ماذا بعد؟
+## What next?
 
-- **[استدعاؤك الأوّل](/getting-started/first-call/)** — أنشئ غرفة فيديو، أرسل SMS، أو حقّق هوية
-- **[تصفّح الطبقات السبع](/pillars/identity/)** — كلّ طبقة لها وثائقها الخاصّة
+- **[Make your first call](/getting-started/first-call/)** — create a video room, send an SMS, verify an identity
+- **[Browse the seven pillars](/pillars/identity/)** — each pillar has dedicated reference docs

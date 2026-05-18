@@ -1,44 +1,44 @@
 ---
-title: 04 · التجارة
-description: TKAWEN Commerce — بنية متاجر إلكترونية بـ 13 عملة، 4 ناقلين، 4 مزوّدي دفع.
+title: 04 · Commerce
+description: TKAWEN Commerce — multi-tenant e-commerce in 13 currencies with global carrier integration.
 ---
 
-## نظرة عامّة
+## Overview
 
-**TKAWEN Commerce** هو الـ backend الذي يشغّل [mystoq.com](https://mystoq.com) (+200 تاجر LIVE). جاهز كـ API لمن يريد بناء storefront مخصَّص:
+**TKAWEN Commerce** is the backend powering [mystoq.com](https://mystoq.com) (200+ live merchants). Available as an API if you want to build a custom storefront on top:
 
-- **13 عملة** — DZD + 10 عملات MENA + USD + EUR
-- **4 مزوّدي دفع** — Tabby، Tamara، Mada، Fawry (إضافة لـ TKAWEN Pay)
-- **4 ناقلين** — Aramex، DHL، CTM، Yalidine
-- **WhatsApp Commerce** — كاتالوغ مزامن مع Meta Catalog
-- **Templates** — 10 verticals جاهزة (Beauty, Pharma, Electronics، إلخ)
-- **Multi-tenant** — كلّ متجر معزول كاملاً
+- **13 currencies** — USD, EUR, GBP, plus 10 regional currencies
+- **Payment methods** — extends TKAWEN Pay + integrates Tabby, Tamara, Mada, Fawry, regional rails
+- **Carriers** — Aramex, DHL, FedEx, UPS, plus regional carriers (CTM, Yalidine, PostaTN, more)
+- **WhatsApp Commerce** — catalog synced to Meta Catalog with auto-reply bot
+- **Templates** — 10 vertical templates (Beauty, Pharma, Electronics, Food, more)
+- **Multi-tenant** — each store fully isolated
 
-يحلّ محلّ **Shopify، Square، BigCommerce**.
+Replaces **Shopify, Square, BigCommerce**.
 
-## البدء السريع
+## Quick start
 
 ```bash
-# أنشئ متجراً جديداً
+# Create a new store
 curl -X POST https://api.tkawen.com/v1/commerce/stores \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "متجر فاطمة للجمال",
-    "subdomain": "fatima-beauty",
-    "currency": "DZD",
-    "language": "ar",
+    "name": "Beauty by Sarah",
+    "subdomain": "sarah-beauty",
+    "currency": "USD",
+    "language": "en",
     "template": "beauty-pink-elegant"
   }'
 ```
 
-ردّ:
+Response:
 
 ```json
 {
   "store_id": "st_8xk2",
-  "subdomain": "fatima-beauty.mystoq.com",
-  "admin_url": "https://fatima-beauty.mystoq.com/admin",
+  "subdomain": "sarah-beauty.mystoq.com",
+  "admin_url": "https://sarah-beauty.mystoq.com/admin",
   "template_applied": "beauty-pink-elegant",
   "products_seeded": 8,
   "categories_seeded": 3,
@@ -46,60 +46,60 @@ curl -X POST https://api.tkawen.com/v1/commerce/stores \
 }
 ```
 
-المتجر **جاهز للبيع** خلال 5 ثوانٍ.
+Store is **ready to sell** in 5 seconds.
 
-## النقاط الرئيسيّة
+## Endpoints
 
 ### Stores
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/commerce/stores` | إنشاء متجر |
-| `GET` | `/v1/commerce/stores/{id}` | تفاصيل |
-| `PATCH` | `/v1/commerce/stores/{id}` | تحديث |
-| `DELETE` | `/v1/commerce/stores/{id}` | حذف (soft، 15 يوم) |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/commerce/stores` | Create store |
+| `GET` | `/v1/commerce/stores/{id}` | Store details |
+| `PATCH` | `/v1/commerce/stores/{id}` | Update |
+| `DELETE` | `/v1/commerce/stores/{id}` | Soft delete (15-day recovery window) |
 
 ### Products
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/commerce/products` | إضافة منتج |
-| `GET` | `/v1/commerce/products?store={id}` | كاتالوغ |
-| `POST` | `/v1/commerce/products/bulk` | استيراد CSV/XLSX |
-| `PATCH` | `/v1/commerce/products/{id}/stock` | تحديث المخزون |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/commerce/products` | Add a product |
+| `GET` | `/v1/commerce/products?store={id}` | List catalog |
+| `POST` | `/v1/commerce/products/bulk` | CSV / XLSX import |
+| `PATCH` | `/v1/commerce/products/{id}/stock` | Update stock level |
 
 ### Orders
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/commerce/orders` | إنشاء طلب |
-| `GET` | `/v1/commerce/orders?store={id}` | الطلبات |
-| `POST` | `/v1/commerce/orders/{id}/ship` | شحن (يُنشئ shipment في Logistics) |
-| `POST` | `/v1/commerce/orders/{id}/refund` | استرجاع |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/commerce/orders` | Create order |
+| `GET` | `/v1/commerce/orders?store={id}` | List orders |
+| `POST` | `/v1/commerce/orders/{id}/ship` | Ship (creates shipment via Logistics) |
+| `POST` | `/v1/commerce/orders/{id}/refund` | Refund (full or partial) |
 
 ### Templates
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `GET` | `/v1/commerce/templates` | الـ 10 templates |
-| `POST` | `/v1/commerce/stores/{id}/apply-template` | تطبيق template |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET` | `/v1/commerce/templates` | List 10 verticals |
+| `POST` | `/v1/commerce/stores/{id}/apply-template` | Apply a template |
 
-## التسعير
+## Pricing
 
-| البند | السعر |
-|-------|------|
-| متجر — base/شهر | **99 DZD** (حتّى 100 منتج) |
-| منتج إضافيّ فوق الـ 100 | **0.50 DZD/شهر** |
+| Item | Price |
+|------|-------|
+| Store base / month | **$0.99** (up to 100 products) |
+| Additional product / month | **$0.005** |
 | Commission per order | **0.5%** (Builder) / 0% (Enterprise) |
-| WhatsApp Commerce | مجاناً (تكاليف الرسائل في [Connect](/pillars/connect/)) |
-| Bulk import | مجاناً |
+| WhatsApp Commerce setup | Free |
+| Bulk import | Free |
 
-في Sandbox: متجر واحد، 100 منتج، 500 طلب/شهر.
+Sandbox: 1 store, 100 products, 500 orders/month.
 
-## أمثلة بـ SDK
+## SDK examples
 
 ```javascript
 const product = await tk.commerce.products.create({
   storeId: 'st_8xk2',
-  name: 'كريم مرطّب SPF50',
+  name: 'Hydrating face cream SPF50',
   price: 2500,
-  currency: 'DZD',
+  currency: 'USD',
   stock: 50,
   images: ['https://...'],
   category: 'skincare',
@@ -107,19 +107,19 @@ const product = await tk.commerce.products.create({
 
 const order = await tk.commerce.orders.create({
   storeId: 'st_8xk2',
-  customer: { phone: '+213555000000', name: 'سعيدة' },
+  customer: { phone: '+15551234567', name: 'Jane Doe' },
   items: [{ productId: product.id, quantity: 1 }],
-  shipping: { wilaya: 'Annaba', commune: 'Annaba', address: '...' },
-  paymentMethod: 'cod',
+  shipping: { country: 'US', region: 'CA', city: 'San Francisco', address: '...' },
+  paymentMethod: 'card',
 });
 ```
 
 ```php
 $product = $tk->commerce->products->create([
     'store_id' => 'st_8xk2',
-    'name'     => 'كريم مرطّب SPF50',
+    'name'     => 'Hydrating face cream SPF50',
     'price'    => 2500,
-    'currency' => 'DZD',
+    'currency' => 'USD',
     'stock'    => 50,
 ]);
 ```
@@ -132,11 +132,11 @@ curl -X POST https://api.tkawen.com/v1/commerce/stores/{id}/whatsapp \
   -d '{
     "phone_number_id": "...",
     "access_token": "...",
-    "auto_reply_languages": ["ar-DZ", "fr"]
+    "auto_reply_languages": ["en", "es", "fr"]
   }'
 ```
 
-الـ bot يدير التصفّح، السلّة، التحقّق، التتبّع — كلّه عبر WhatsApp.
+The bot handles browsing, cart, checkout, and order tracking — entirely inside WhatsApp.
 
 ## Webhooks
 
@@ -149,13 +149,13 @@ order.cancelled         order.refunded
 template.applied
 ```
 
-## الحدود
+## Limits
 
-- 10,000 منتج/متجر (Builder)
-- 100,000 منتج/متجر (Enterprise)
-- 1,000 طلب/يوم/متجر (Builder)
+- 10,000 products / store (Builder)
+- 100,000 products / store (Enterprise)
+- 1,000 orders / day / store (Builder)
 
-## روابط
+## Related
 
-- المنتج الاستهلاكيّ: [mystoq.com](https://mystoq.com)
-- التالي: [05 · المعرفة](/pillars/knowledge/)
+- Consumer product: [mystoq.com](https://mystoq.com)
+- Next: [05 · Knowledge](/pillars/knowledge/)

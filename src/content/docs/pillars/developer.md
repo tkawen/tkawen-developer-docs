@@ -1,121 +1,123 @@
 ---
-title: 07 · للمطوّرين
-description: TKAWEN Developer Cloud — API gateway موحَّدة، 4 SDKs، Sandbox مجاني، docs بالعربية.
+title: 07 · Developer
+description: TKAWEN Developer Cloud — unified gateway, 4 SDKs, OpenAPI 3.1, free sandbox, public status.
 ---
 
-## نظرة عامّة
+## Overview
 
-**TKAWEN Developer Cloud** هو الطبقة الميتا — الأدوات التي تستخدمها لإدارة استخدامك للطبقات الستّ الأخرى:
+**TKAWEN Developer Cloud** is the meta-layer — the tools you use to manage your usage of the other six pillars:
 
-- **API Gateway** — `api.tkawen.com` بوّابة موحَّدة (لا 7 endpoints منفصلة)
-- **API Keys** — إدارة، تدوير، تقييد scope
-- **Usage + Billing** — استهلاكك الحاليّ + التاريخيّ بالدينار
-- **Webhooks** — إدارة كلّ المشتركات في حدث واحد
-- **SDKs** — JavaScript، PHP، Python، Go (كلّها مفتوحة المصدر MIT)
+- **API Gateway** — `api.tkawen.com`, one unified entry (no 7 disjoint endpoints)
+- **API Keys** — issue, rotate, scope per pillar
+- **Usage + Billing** — current consumption in your billing currency
+- **Webhooks** — one place to manage event subscriptions
+- **SDKs** — JavaScript, PHP, Python, Go (all MIT, open source)
 - **Status + SLA** — [status.tkawen.com](https://status.tkawen.com)
-- **Sandbox** — بيئة معزولة مجاناً للتجريب
+- **Sandbox** — free, isolated, identical to production
 
-يحلّ محلّ **AWS console، Vercel dashboard، Cloudflare developer tools**.
+Replaces **AWS console, Vercel dashboard, Cloudflare developer tools**.
 
-## البدء السريع
+## Quick start
 
 ```bash
-# فحص الصحّة
+# Health check (no auth)
 curl https://api.tkawen.com/v1/health
-# → {"status":"ok","version":"1.0.42","region":"dz-1"}
+# → {"status":"ok","version":"1.0.42","region":"global"}
 
-# استهلاكك الحاليّ
+# Your current usage
 curl -H "Authorization: Bearer $TKAWEN_KEY" \
      https://api.tkawen.com/v1/usage
 ```
 
-ردّ:
+Response:
 
 ```json
 {
   "period": "2026-05",
   "by_pillar": {
-    "identity":  { "calls": 1247, "cost_dzd": 623.50 },
-    "connect":   { "calls": 892, "cost_dzd": 1340.00 },
-    "pay":       { "calls": 156, "cost_dzd": 0 },
-    "commerce":  { "calls": 4521, "cost_dzd": 99.00 },
-    "knowledge": { "calls": 88, "cost_dzd": 440.00 },
-    "logistics": { "calls": 234, "cost_dzd": 1450.00 }
+    "identity":  { "calls": 1247, "cost": 6.24 },
+    "connect":   { "calls": 892,  "cost": 13.40 },
+    "pay":       { "calls": 156,  "cost": 0 },
+    "commerce":  { "calls": 4521, "cost": 0.99 },
+    "knowledge": { "calls": 88,   "cost": 4.40 },
+    "logistics": { "calls": 234,  "cost": 14.50 }
   },
-  "total_dzd": 3952.50,
+  "total": 39.53,
+  "currency": "USD",
   "plan": "builder",
   "next_invoice_date": "2026-06-01"
 }
 ```
 
-## النقاط الرئيسيّة
+## Endpoints
 
-### Health + Usage
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `GET` | `/v1/health` | فحص الصحّة (no auth) |
-| `GET` | `/v1/usage` | استهلاكك الحاليّ بالدينار |
-| `GET` | `/v1/usage/history` | تاريخ شهريّ (12 شهر) |
-| `GET` | `/v1/billing` | فواتيرك القادمة + الحاليّة |
+### Health + usage
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET` | `/v1/health` | Health check (no auth) |
+| `GET` | `/v1/usage` | Current month usage + cost |
+| `GET` | `/v1/usage/history` | Monthly history (12 months) |
+| `GET` | `/v1/billing` | Upcoming + past invoices |
 
-### API Keys
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/keys` | إنشاء key جديد |
-| `GET` | `/v1/keys` | كلّ الـ keys |
-| `POST` | `/v1/keys/{id}/rotate` | تدوير |
-| `DELETE` | `/v1/keys/{id}` | إبطال |
-| `PATCH` | `/v1/keys/{id}/scope` | تقييد scope (مثلاً: identity فقط) |
+### API keys
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/keys` | Create a new key |
+| `GET` | `/v1/keys` | List your keys |
+| `POST` | `/v1/keys/{id}/rotate` | Rotate |
+| `DELETE` | `/v1/keys/{id}` | Revoke |
+| `PATCH` | `/v1/keys/{id}/scope` | Scope (e.g., identity-only) |
 
 ### Webhooks
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/webhooks` | إنشاء webhook |
-| `GET` | `/v1/webhooks` | كلّ الـ webhooks |
-| `POST` | `/v1/webhooks/{id}/test` | إرسال event وهميّ |
-| `GET` | `/v1/webhooks/{id}/deliveries` | تاريخ التسليمات الـ 100 الأخيرة |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/webhooks` | Create webhook |
+| `GET` | `/v1/webhooks` | List webhooks |
+| `POST` | `/v1/webhooks/{id}/test` | Send a test event |
+| `GET` | `/v1/webhooks/{id}/deliveries` | Last 100 delivery attempts |
 
-## التسعير
+## Pricing
 
-**Developer Cloud نفسه مجاناً.** أنت تدفع فقط مقابل استخدام الطبقات الستّ الأخرى.
+**Developer Cloud is free.** You only pay for usage of the other six pillars.
 
-## SDKs الرسميّة
+## Official SDKs
 
-| اللغة | الحزمة | المستودع |
-|------|--------|-----------|
-| **JavaScript / TypeScript** | `npm install @tkawen/sdk` | [github.com/liqaa-cloud/tkawen-js](https://github.com/liqaa-cloud) |
-| **PHP / Laravel** | `composer require tkawen/sdk` | [github.com/liqaa-cloud/tkawen-php](https://github.com/liqaa-cloud) |
-| **Python** | `pip install tkawen` | [github.com/liqaa-cloud/tkawen-python](https://github.com/liqaa-cloud) |
+| Language | Install | Repository |
+|----------|---------|------------|
+| **JavaScript / TypeScript** | `npm install @tkawen/sdk` | [github.com/liqaa-cloud](https://github.com/liqaa-cloud) |
+| **PHP / Laravel** | `composer require tkawen/sdk` | [github.com/liqaa-cloud](https://github.com/liqaa-cloud) |
+| **Python** | `pip install tkawen` | [github.com/liqaa-cloud](https://github.com/liqaa-cloud) |
 | **Go** | `go get github.com/liqaa-cloud/tkawen-go` | [github.com/liqaa-cloud](https://github.com/liqaa-cloud) |
 
-كلّها MIT، نفس الـ method signatures عبر اللغات الأربع.
+All under MIT, identical method signatures across languages.
 
-## Sandbox vs Production
+## Sandbox vs production
 
-| البيئة | الـ key prefix | البيانات | الحدود | الفوترة |
-|--------|---------------|---------|--------|---------|
-| **Sandbox** | `sk_sandbox_...` | وهميّة، تُمسح أسبوعياً | 1,000 call/شهر | مجاناً |
-| **Production** | `sk_live_...` | حقيقيّة | حسب الـ plan | بالدينار |
+| Environment | Key prefix | Data | Limits | Billing |
+|-------------|------------|------|--------|---------|
+| **Sandbox** | `sk_sandbox_...` | Mock, wiped weekly | 1,000 calls / month | Free |
+| **Production** | `sk_live_...` | Real | Per your plan | In your currency |
 
-استخدم Sandbox للتطوير، انتقل إلى Production عند الإطلاق.
+Use Sandbox for development, switch to Production at launch.
 
-## OpenAPI Spec
+## OpenAPI spec
 
-كلّ الطبقات السبع موثَّقة بـ OpenAPI 3.1 على:
+All seven pillars are documented in OpenAPI 3.1:
 
 ```
 https://api.tkawen.com/openapi.json
 https://api.tkawen.com/openapi.yaml
 ```
 
-استخدمها لـ:
-- توليد SDKs لأيّ لغة (Swagger Codegen)
-- استيراد إلى Postman / Insomnia / Bruno
-- توليد mock servers (Prism, Mockoon)
+Use it to:
 
-## Webhook Signature Verification
+- Generate SDKs for any language (Swagger Codegen)
+- Import into Postman / Insomnia / Bruno
+- Generate mock servers (Prism, Mockoon)
 
-كلّ webhook موقَّع بـ HMAC-SHA256:
+## Webhook signature verification
+
+Every webhook is signed with HMAC-SHA256:
 
 ```javascript
 import crypto from 'crypto';
@@ -139,24 +141,25 @@ function verify($payload, $signature, $secret) {
 }
 ```
 
-## SLA + Status
+## SLA + status
 
-- **status.tkawen.com** — صفحة الحالة الحيّة لكلّ الطبقات السبع + التابعين
-- **Status API** — `GET https://status.tkawen.com/api` (JSON live)
-- **Subscribe** — RSS/Atom feed + SMS/Email للحوادث المعلَنة
+- **status.tkawen.com** — live status for every pillar + upstream dependencies
+- **Status API** — `GET https://status.tkawen.com/api` (JSON, live)
+- **Subscribe** — RSS / Atom feed + SMS / email for declared incidents
 
-## Discord Community
+## Discord community
 
-[discord.gg/tkawen](https://discord.gg/tkawen) — مكان السؤال، الإجابة من الفريق + المجتمع. قنوات بالعربية + الفرنسية + الإنجليزية.
+[discord.gg/tkawen](https://discord.gg/tkawen) — ask, answer, get help from the team and community. Channels in English, French, and Arabic.
 
-## Issues + Feature Requests
+## Issues + feature requests
 
-كلّ المستودعات تقبل issues:
-- [github.com/liqaa-cloud](https://github.com/liqaa-cloud) — للـ SDKs والمواصفات
-- [github.com/hartemyaakoub](https://github.com/hartemyaakoub) — للمشاريع الرئيسيّة
+Every repository accepts issues:
 
-## روابط
+- [github.com/liqaa-cloud](https://github.com/liqaa-cloud) — SDKs and specs
+- [github.com/hartemyaakoub](https://github.com/hartemyaakoub) — flagship projects
 
-- الحالة الحيّة: [status.tkawen.com](https://status.tkawen.com)
-- المستودعات: [github.com/liqaa-cloud](https://github.com/liqaa-cloud)
-- المؤسّس: [hartem.tkawen.com](https://hartem.tkawen.com)
+## Related
+
+- Live status: [status.tkawen.com](https://status.tkawen.com)
+- Repositories: [github.com/liqaa-cloud](https://github.com/liqaa-cloud)
+- Founder: [hartem.tkawen.com](https://hartem.tkawen.com)

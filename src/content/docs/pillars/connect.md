@@ -1,36 +1,37 @@
 ---
-title: 02 · الاتصال
-description: TKAWEN Connect — فيديو، صوت، SMS، WhatsApp، TTS بالعربية الجزائرية، API واحدة.
+title: 02 · Connect
+description: TKAWEN Connect — video, voice, SMS, WhatsApp, email, and TTS behind one API.
 ---
 
-## نظرة عامّة
+## Overview
 
-**TKAWEN Connect** يجمع كلّ قنوات التواصل في API واحدة:
+**TKAWEN Connect** unifies every communication channel a product needs:
 
-- **فيديو** عبر LIQAA Cloud (مبنيّ على LiveKit) — sub-100ms latency
-- **صوت** — مكالمات WebRTC + recording + transcript (Whisper)
-- **SMS** — تكامل مع المشغّلَين الجزائريَّين (Mobilis + Djezzy)
-- **WhatsApp** — Cloud API مع per-tenant onboarding
-- **TTS** — صوت سياديّ بالعربية الجزائريّة (Piper VITS مدرَّب على Darija)
+- **Video** via LIQAA Cloud (LiveKit-based) — sub-100ms latency, recording, transcripts
+- **Voice** — WebRTC calls + server-side recording + Whisper transcription
+- **SMS** — global routing across major carriers
+- **WhatsApp** — Cloud API with per-tenant onboarding
+- **Email** — transactional sending with DKIM signing
+- **TTS** — multi-voice text-to-speech in 20+ languages
 
-يحلّ محلّ **Twilio، Zoom، SendGrid، Daily.co**.
+Replaces **Twilio, Zoom, SendGrid, Daily.co**.
 
-## البدء السريع
+## Quick start
 
 ```bash
-# أنشئ غرفة فيديو
+# Create a video room
 curl -X POST https://api.tkawen.com/v1/connect/rooms \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "reunion-strategique",
+    "name": "team-standup",
     "max_participants": 12,
     "duration_minutes": 60,
     "record": true
   }'
 ```
 
-ردّ:
+Response:
 
 ```json
 {
@@ -41,87 +42,88 @@ curl -X POST https://api.tkawen.com/v1/connect/rooms \
 }
 ```
 
-## النقاط الرئيسيّة
+## Endpoints
 
-### الفيديو + الصوت
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/connect/rooms` | إنشاء غرفة |
-| `GET` | `/v1/connect/rooms/{id}` | حالة الغرفة + المشاركون |
-| `DELETE` | `/v1/connect/rooms/{id}` | إنهاء فوريّ |
-| `GET` | `/v1/connect/rooms/{id}/recording` | تنزيل التسجيل (MP4) |
-| `GET` | `/v1/connect/rooms/{id}/transcript` | نسخة نصّيّة (Whisper) |
+### Video + voice
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/connect/rooms` | Create a room |
+| `GET` | `/v1/connect/rooms/{id}` | Room state + participants |
+| `DELETE` | `/v1/connect/rooms/{id}` | End immediately |
+| `GET` | `/v1/connect/rooms/{id}/recording` | Download recording (MP4) |
+| `GET` | `/v1/connect/rooms/{id}/transcript` | Whisper transcript |
 
-### SMS + WhatsApp
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/connect/sms` | إرسال SMS |
-| `POST` | `/v1/connect/whatsapp` | إرسال WhatsApp |
-| `POST` | `/v1/connect/whatsapp/templates` | تسجيل قالب |
-| `GET` | `/v1/connect/messages/{id}` | حالة الرسالة |
+### SMS + WhatsApp + email
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/connect/sms` | Send SMS |
+| `POST` | `/v1/connect/whatsapp` | Send WhatsApp message |
+| `POST` | `/v1/connect/whatsapp/templates` | Register a template |
+| `POST` | `/v1/connect/email` | Send transactional email |
+| `GET` | `/v1/connect/messages/{id}` | Message state (sent / delivered / read) |
 
 ### TTS
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/connect/voice/tts` | نصّ → صوت (Amina/Ismael) |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/connect/voice/tts` | Text to speech (20+ voices) |
 
-## التسعير (بالدينار)
+## Pricing
 
-| العمليّة | السعر |
-|----------|------|
-| فيديو — مشارك/دقيقة | **5 DZD** (HD) / **8 DZD** (4K) |
-| تسجيل غرفة — دقيقة | **2 DZD** إضافيّة |
-| Transcript Whisper — دقيقة | **3 DZD** |
-| SMS DZ | **4 DZD** |
-| WhatsApp message | **1.5 DZD** |
-| WhatsApp template (24h) | **0.5 DZD** |
-| TTS — 100 حرف | **0.30 DZD** |
+| Action | Price |
+|--------|-------|
+| Video — per participant-minute | **$0.004** (HD) / **$0.008** (4K) |
+| Recording — per minute | **+ $0.002** |
+| Whisper transcript — per minute | **$0.005** |
+| SMS — domestic destinations | **from $0.005** |
+| SMS — international | **from $0.04** |
+| WhatsApp message | **$0.015** |
+| Email — transactional | **$0.0001 / email** |
+| TTS — per 100 chars | **$0.0008** |
 
-في Sandbox: **1,000 دقيقة فيديو/شهر**، **100 SMS**، **100 WA**.
+Sandbox: **1,000 video minutes/month, 100 SMS, 100 WA, 1,000 emails**.
 
-## أمثلة بـ SDK
+## SDK examples
 
 ```javascript
-// أنشئ غرفة وأرسل رابطها بـ SMS
+// Create a room + send the join link by SMS
 const room = await tk.connect.rooms.create({
-  name: 'demo-vente',
+  name: 'sales-demo',
   maxParticipants: 4,
 });
 
 await tk.connect.sms.send({
-  to: '+213555000000',
-  body: `انضمّ للاجتماع: ${room.joinUrl}`,
+  to: '+15551234567',
+  body: `Join the meeting: ${room.joinUrl}`,
 });
 ```
 
 ```php
 $room = $tk->connect->rooms->create([
-    'name' => 'demo-vente',
+    'name' => 'sales-demo',
     'max_participants' => 4,
 ]);
 
 $tk->connect->sms->send([
-    'to'   => '+213555000000',
-    'body' => "انضمّ للاجتماع: {$room->join_url}",
+    'to'   => '+15551234567',
+    'body' => "Join the meeting: {$room->join_url}",
 ]);
 ```
 
 ```python
-room = tk.connect.rooms.create(name='demo-vente', max_participants=4)
-tk.connect.sms.send(to='+213555000000', body=f'انضمّ: {room.join_url}')
+room = tk.connect.rooms.create(name='sales-demo', max_participants=4)
+tk.connect.sms.send(to='+15551234567', body=f'Join: {room.join_url}')
 ```
 
 ## Webhooks
 
-اشترك في الأحداث الحقيقيّة:
-
 ```
 room.started     room.ended      room.participant_joined
-sms.delivered    sms.failed       whatsapp.read
-recording.ready  transcript.ready tts.ready
+sms.delivered    sms.failed      whatsapp.read
+email.delivered  email.bounced   recording.ready
+transcript.ready tts.ready
 ```
 
-تكوين:
+Configure:
 
 ```bash
 curl -X POST https://api.tkawen.com/v1/connect/webhooks \
@@ -133,16 +135,16 @@ curl -X POST https://api.tkawen.com/v1/connect/webhooks \
   }'
 ```
 
-موقَّع HMAC-SHA256 — تحقّق من `X-TKAWEN-Signature`.
+Signed with HMAC-SHA256 — verify via `X-TKAWEN-Signature`.
 
-## الحدود + SLA
+## Limits + SLA
 
-- **Rate limit:** 500 SMS/min، 100 غرفة متزامنة (Builder)
-- **Latency فيديو p50:** <50ms داخل DZ، <100ms داخل MENA
-- **SLA:** 99.9% (Builder)، 99.99% (Enterprise)
+- **Rate limit:** 500 SMS/min, 100 concurrent rooms (Builder)
+- **Video latency p50:** under 50ms intra-region, under 100ms cross-region
+- **SLA:** 99.9% (Builder), 99.99% (Enterprise)
 
-## روابط
+## Related
 
 - LIQAA Meet (OSS): [meet.liqaa.io](https://meet.liqaa.io)
-- المستودع: [github.com/liqaa-cloud](https://github.com/liqaa-cloud)
-- التالي: [03 · الدفع](/pillars/pay/)
+- Source: [github.com/liqaa-cloud](https://github.com/liqaa-cloud)
+- Next: [03 · Pay](/pillars/pay/)

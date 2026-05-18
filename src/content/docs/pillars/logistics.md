@@ -1,36 +1,36 @@
 ---
-title: 06 · اللوجستيك
-description: TKAWEN Logistics — تتبّع أساطيل + تكامل مع ناقلي DZ (Yalidine، CTM، Aramex، EcoTrack carriers).
+title: 06 · Logistics
+description: TKAWEN Logistics — fleet GPS + multi-carrier shipping in one unified API.
 ---
 
-## نظرة عامّة
+## Overview
 
-**TKAWEN Logistics** يدمج طبقتَين منفصلتَين لكنّهما مترابطتان:
+**TKAWEN Logistics** combines two related but distinct layers:
 
-1. **Fleet tracking** — تتبّع GPS لأساطيل المركبات (مبنيّ على Traccar 6)
-2. **Last-mile delivery** — تكامل مع كلّ ناقلي الشحن الجزائريّين
+1. **Fleet tracking** — GPS for vehicle fleets (Traccar 6 based)
+2. **Last-mile shipping** — integration with major global and regional carriers
 
-تشغّل بالفعل [track.tkawen.com](https://track.tkawen.com) ودمج Yalidine في [mystoq.com](https://mystoq.com).
+Powers [track.tkawen.com](https://track.tkawen.com) and the shipping layer in [mystoq.com](https://mystoq.com).
 
-يحلّ محلّ **Onfleet، Bringg** + يدمج معايير DZ المحليّة.
+Replaces **Onfleet, Bringg, ShipBob, Shippo**.
 
-## البدء السريع
+## Quick start
 
 ```bash
-# سجّل جهاز GPS جديد
+# Register a new GPS device
 curl -X POST https://api.tkawen.com/v1/logistics/devices \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "Van Annaba #3",
+    "name": "Van Bay Area #3",
     "imei": "352656102345678",
-    "wilaya": "Annaba",
+    "region": "US-CA",
     "vehicle_type": "van",
     "driver_id": "usr_8xk2"
   }'
 ```
 
-ردّ:
+Response:
 
 ```json
 {
@@ -42,70 +42,72 @@ curl -X POST https://api.tkawen.com/v1/logistics/devices \
 }
 ```
 
-ضع الـ IMEI في الجهاز، يتّصل تلقائياً، يبدأ التتبّع.
+Drop the IMEI into the device, it connects automatically, tracking starts.
 
-## النقاط الرئيسيّة
+## Endpoints
 
-### Fleet Tracking
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `POST` | `/v1/logistics/devices` | تسجيل جهاز |
-| `GET` | `/v1/logistics/devices` | كلّ الأجهزة |
-| `GET` | `/v1/logistics/devices/{id}/position` | الموقع الحاليّ |
-| `GET` | `/v1/logistics/devices/{id}/history` | المسار التاريخيّ |
-| `POST` | `/v1/logistics/geofences` | إنشاء geofence |
-| `POST` | `/v1/logistics/alerts` | تنبيهات (overspeed، خروج geofence، إلخ) |
+### Fleet tracking
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/v1/logistics/devices` | Register a device |
+| `GET` | `/v1/logistics/devices` | List devices |
+| `GET` | `/v1/logistics/devices/{id}/position` | Current position |
+| `GET` | `/v1/logistics/devices/{id}/history` | Historical path |
+| `POST` | `/v1/logistics/geofences` | Create geofence |
+| `POST` | `/v1/logistics/alerts` | Alerts (overspeed, geofence exit, etc.) |
 
-### Shipments (Last-mile)
-| Method | المسار | الوظيفة |
-|--------|--------|---------|
-| `GET` | `/v1/logistics/carriers` | قائمة الناقلين المدمَجين |
-| `POST` | `/v1/logistics/quote` | عرض أسعار من كلّ الناقلين |
-| `POST` | `/v1/logistics/shipments` | إنشاء shipment |
-| `GET` | `/v1/logistics/shipments/{id}/track` | حالة الشحنة |
-| `POST` | `/v1/logistics/shipments/{id}/cancel` | إلغاء |
+### Shipments (last-mile)
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET` | `/v1/logistics/carriers` | Available integrated carriers |
+| `POST` | `/v1/logistics/quote` | Get rate quotes from all carriers |
+| `POST` | `/v1/logistics/shipments` | Create a shipment |
+| `GET` | `/v1/logistics/shipments/{id}/track` | Track shipment status |
+| `POST` | `/v1/logistics/shipments/{id}/cancel` | Cancel |
 
-## الناقلون المدمَجون
+## Integrated carriers
 
-| الناقل | التغطية | API status |
-|--------|---------|-----------|
-| **Yalidine** | 58 wilaya، 1708 commune | ✅ مباشر |
-| **CTM** | 48 wilaya | ✅ مباشر |
-| **Aramex** | دوليّ + DZ | ✅ مباشر |
-| **DHL Express** | دوليّ | ✅ مباشر |
-| **PostaTN** (تونس) | تونس | ✅ مباشر |
-| **EcoTrack carriers (×97)** | شراكة استراتيجيّة | 🟡 قريباً |
+| Carrier | Coverage | API |
+|---------|----------|-----|
+| **DHL Express** | Global | Direct |
+| **FedEx** | Global | Direct |
+| **UPS** | Global | Direct |
+| **Aramex** | Global + MENA | Direct |
+| **CTM** | Regional | Direct |
+| **Yalidine** | Regional | Direct |
+| **PostaTN** | Regional | Direct |
+| **+97 regional carriers** | Per-market | Aggregated partnership |
 
-## التسعير
+## Pricing
 
-| البند | السعر |
-|-------|------|
-| جهاز GPS — شهر | **500 DZD** (Builder) |
-| Geofence | مجاناً (حتّى 100/حساب) |
-| Alert | مجاناً |
-| Shipment إنشاء | **50 DZD** + رسوم الناقل |
-| Shipment tracking | مجاناً |
-| Quote API | مجاناً (يساعد على تحفيز المقارنة) |
+| Item | Price |
+|------|-------|
+| GPS device / month | **$3.99** (Builder) |
+| Geofence | Free (up to 100 / account) |
+| Alert | Free |
+| Shipment creation | **$0.50** + carrier fee |
+| Shipment tracking | Free |
+| Quote API | Free (we want you to comparison-shop) |
 
-في Sandbox: جهازان GPS وهميَّان، 10 shipments/شهر.
+Sandbox: 2 mock GPS devices, 10 shipments / month.
 
-## أمثلة بـ SDK
+## SDK examples
 
 ```javascript
-// قارن أسعار الشحن بين الناقلين
+// Compare shipping rates across carriers
 const quotes = await tk.logistics.quote({
-  from: { wilaya: 'Annaba' },
-  to: { wilaya: 'Algiers', commune: 'Bab Ezzouar' },
+  from: { country: 'US', region: 'CA', city: 'San Francisco' },
+  to:   { country: 'US', region: 'NY', city: 'New York' },
   weight_kg: 2.5,
   declared_value: 5000,
 });
-// → [{ carrier: 'Yalidine', cost: 450 }, { carrier: 'CTM', cost: 550 }, ...]
+// → [{ carrier: 'UPS', cost: 18 }, { carrier: 'FedEx', cost: 22 }, ...]
 
-// أنشئ shipment مع الناقل الأرخص
+// Create a shipment with the cheapest carrier
 const shipment = await tk.logistics.shipments.create({
   carrier: quotes[0].carrier,
-  from: { wilaya: 'Annaba', name: 'متجر فاطمة', phone: '+213555000000' },
-  to: { wilaya: 'Algiers', commune: 'Bab Ezzouar', name: 'سعيدة', phone: '+213556111111', address: '...' },
+  from: { country: 'US', region: 'CA', city: 'San Francisco', name: 'Store', phone: '+15551234567' },
+  to: { country: 'US', region: 'NY', city: 'New York', name: 'Jane Doe', phone: '+15557654321', address: '...' },
   package: { weight_kg: 2.5, declared_value: 5000 },
   cod_amount: 5000,
 });
@@ -113,14 +115,9 @@ const shipment = await tk.logistics.shipments.create({
 
 ```php
 $quotes = $tk->logistics->quote([
-    'from'    => ['wilaya' => 'Annaba'],
-    'to'      => ['wilaya' => 'Algiers'],
+    'from'    => ['country' => 'US', 'city' => 'San Francisco'],
+    'to'      => ['country' => 'US', 'city' => 'New York'],
     'weight_kg' => 2.5,
-]);
-
-$shipment = $tk->logistics->shipments->create([
-    'carrier' => $quotes[0]['carrier'],
-    // ...
 ]);
 ```
 
@@ -130,29 +127,29 @@ $shipment = $tk->logistics->shipments->create([
 curl -X POST https://api.tkawen.com/v1/logistics/geofences \
   -H "Authorization: Bearer $TKAWEN_KEY" \
   -d '{
-    "name": "منطقة عمّال عنّابة",
+    "name": "Downtown delivery zone",
     "type": "polygon",
-    "coordinates": [[36.9, 7.76], [36.92, 7.78], [36.91, 7.79]],
+    "coordinates": [[37.78, -122.41], [37.79, -122.42], [37.77, -122.43]],
     "alert_on": "exit"
   }'
 ```
 
-كلّ خروج/دخول يُولّد webhook + SMS اختياريّ.
+Every entry / exit triggers a webhook + optional SMS.
 
 ## Webhooks
 
 ```
 device.connected        device.disconnected
-device.position_update  (كلّ 30 ثانية افتراضياً)
+device.position_update  (every 30 seconds by default)
 geofence.entered        geofence.exited
-alert.triggered          (overspeed، idle، إلخ)
+alert.triggered          (overspeed, idle, etc.)
 shipment.created        shipment.picked_up
 shipment.in_transit     shipment.out_for_delivery
 shipment.delivered      shipment.failed
 ```
 
-## روابط
+## Related
 
-- المنتج الاستهلاكيّ: [track.tkawen.com](https://track.tkawen.com)
-- لوحة الإدارة: [app.tkawen.com](https://app.tkawen.com)
-- التالي: [07 · للمطوّرين](/pillars/developer/)
+- Consumer product: [track.tkawen.com](https://track.tkawen.com)
+- Admin dashboard: [app.tkawen.com](https://app.tkawen.com)
+- Next: [07 · Developer](/pillars/developer/)
