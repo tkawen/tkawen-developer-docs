@@ -25,11 +25,11 @@ export default defineConfig({
         },
       ],
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/hartemyaakoub' },
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/tkawen' },
         { icon: 'discord', label: 'Discord', href: 'https://discord.gg/tkawen' },
       ],
       editLink: {
-        baseUrl: 'https://github.com/hartemyaakoub/tkawen-developer-docs/edit/main/',
+        baseUrl: 'https://github.com/tkawen/tkawen-developer-docs/edit/main/',
       },
       sidebar: [
         {
